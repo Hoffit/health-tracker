@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Application Entry Point for Android app: Health Tracker
  */
@@ -19,6 +22,47 @@ public class MainActivity extends AppCompatActivity {
     private int fingerExerciseCount;
 
     /**
+     * The stopwatch.
+     * A thread implementation for the stopwatch feature.
+     * API doc was mixed bag: https://developer.android.com/guide/components/processes-and-threads#WorkerThreads
+     */
+    class Stopwatch implements Runnable {
+        long timer;
+        final TextView stopwatchDisplayTextView = findViewById(R.id.stopwatchDisplay);
+
+        @Override
+        public void run() {
+            timer
+            stopwatchDisplayTextView.postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            stopwatchDisplayTextView.setText(getStopwatchFormattedTime());
+                        }
+                    },
+                    100
+            );
+        }
+
+        //helpful https://stackoverflow.com/a/10364430
+        private String getStopwatchFormattedTime() {
+            timer = timer + System.currentTimeMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("H:m:ss:SSS");
+            Date date = new Date(timer);
+            return sdf.format(date);
+        }
+    }
+
+    /**
+     * The stopwatch.
+     */
+    private Stopwatch stopwatch;
+    /**
+     * Thread for the stopwatch
+     */
+    private Thread stopwatchThread;
+
+    /**
      * Application entry point.
      * Impl note - not sure but I think this is analogous to a Java main method in a spring boot app.
      * @param savedInstanceState Bundle
@@ -27,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //maybe this shit will fucking work
+        stopwatch = new Stopwatch();
+        stopwatchThread = new Thread(stopwatch);
     }
 
     /**
@@ -47,39 +94,23 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Processes the onClick event for the Start/Pause stopwatch button. Alternates between starting (or resuming)
      * the stopwatch, and stopping it.
+     * The format of the stopwatch is 0:00:00:000 (0H, 00M, 00S, 000MS).
      * Creates a Java Thread instance to for the stopwatch to run in.
      * @param view The view widget source of the event.
      */
     public void startOrPauseStopwatch(View view) {
         Button button = findViewById(R.id.stopwatchStartOrPause);
         StopwatchButtonState buttonState = StopwatchButtonState.valueOf(button.getText().toString());
-        Thread thread = null;
-
-        // A thread implementation for the stopwatch
-        class Runnable implements java.lang.Runnable {
-            @Override
-            public void run() {
-                Thread thread = Thread.currentThread();
-                TextView stopwatchDisplayTextView = findViewById(R.id.stopwatchReset);
-                while (thread.isAlive()) {
-                    stopwatchDisplayTextView.setText(String.valueOf(System.currentTimeMillis()));
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
         switch (buttonState) {
             case START:
-                thread = new Thread(new Runnable());
+                stopwatch.running = true;
+                if(!stopwatchThread.isAlive()) {
+                    stopwatchThread.start();
+                }
                 button.setText(StopwatchButtonState.PAUSE.toString());
-//                runOnUiThread(thread); //Got CalledFromWrongThreadException and this helped me out: https://stackoverflow.com/questions/5161951/android-only-the-original-thread-that-created-a-view-hierarchy-can-touch-its-vi
                 break;
             case PAUSE:
-                thread.interrupt();
+                stopwatch.running = false;
                 button.setText(StopwatchButtonState.START.toString());
                 break;
             default:
@@ -96,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         StopwatchButtonState buttonState = StopwatchButtonState.valueOf(button.getText().toString());
         switch (buttonState) {
             case START:
-                TextView stopwatchDisplayTextView = findViewById(R.id.stopwatchReset);
+                TextView stopwatchDisplayTextView = findViewById(R.id.stopwatchDisplay);
                 stopwatchDisplayTextView.setText(Constants.STOPWATCH_START_STRING);
                 break;
             case PAUSE:
