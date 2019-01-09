@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name" translatable="false">Health Tracker App</string>
+    <string name="inspireMessage">You\'ve Drawn a Crowd!</string>
+    <string name="stopwatchDisplay">0:00:00:000</string>
+    <string name="fingerExercise">Press Me!</string>
+    <string name="fingerExerciseCount">0</string>
+    <string name="stopwatchStart" translatable="false">START</string>
+    <string name="stopwatchReset">Reset</string>
+    <string name="inspireImageContentDescription">Main app inspriation image</string>
+</resources>
