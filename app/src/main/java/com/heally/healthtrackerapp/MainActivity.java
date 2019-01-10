@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -23,44 +25,101 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * The stopwatch.
+     */
+    private Stopwatch stopwatch;
+
+    /**
+     * Thread for the stopwatch
+     */
+    private Thread stopwatchThread;
+
+    /**
+     * Stopwatch startTime
+     */
+    private Instant startTime;
+
+    /**
+     * The stopwatch.
      * A thread implementation for the stopwatch feature.
      * API doc was mixed bag: https://developer.android.com/guide/components/processes-and-threads#WorkerThreads
+     * https://stackoverflow.com/a/12937153
      */
     class Stopwatch implements Runnable {
-        long timer;
         final TextView stopwatchDisplayTextView = findViewById(R.id.stopwatchDisplay);
+        boolean running;
 
         @Override
         public void run() {
-            timer
-            stopwatchDisplayTextView.postDelayed(
+            running = true;
+            if (startTime == null) {
+                startTime = Instant.now();
+            }
+            while(running) {
+                stopwatchDisplayTextView.post(
                     new Runnable() {
                         @Override
                         public void run() {
                             stopwatchDisplayTextView.setText(getStopwatchFormattedTime());
                         }
-                    },
-                    100
-            );
+                    }
+                );
+                try {
+                    stopwatchThread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-        //helpful https://stackoverflow.com/a/10364430
+        /**
+         * Helper method to generate the stopwatch timestamp.
+         * Helpful: https://stackoverflow.com/a/10364430
+         * @return String representation of elapsed time.
+         */
         private String getStopwatchFormattedTime() {
-            timer = timer + System.currentTimeMillis();
-            SimpleDateFormat sdf = new SimpleDateFormat("H:m:ss:SSS");
-            Date date = new Date(timer);
-            return sdf.format(date);
+            Duration duration = Duration.between(startTime, Instant.now());
+            long millis = duration.toMillis() % 1000;
+
+            //Construct the millisecond part of the stopwatch display, with leading zeroes when applicable
+            String millisString;
+            if (millis < 10) {
+                millisString = "00" + millis;
+            }
+            else if(millis < 100) {
+                millisString = "0" + millis;
+            }
+            else {
+                millisString = String.valueOf(millis);
+            }
+
+            millis = duration.toMillis();
+
+            //Construct the seconds part of the stopwatch display, with leading zero when applicable
+            long seconds = (millis/1000)%60;
+            String secondsString;
+            if (seconds < 10) {
+                secondsString = "0" + seconds;
+            }
+            else {
+                secondsString = String.valueOf(seconds);
+            }
+
+            //Construct the minutes part of the stopwatch display, with leading zero when applicable
+            long minutes = ((millis/1000)/60)%60;
+            String minutesString;
+            if (minutes < 10) {
+                minutesString = "0" + minutes;
+            }
+            else {
+                minutesString = String.valueOf(minutes);
+            }
+
+            //Construct the hours part of the stopwatch display
+            String hours = String.valueOf(duration.toHours()%10);
+
+            return hours + ':' + minutesString + ':' + secondsString + '.' + millisString;
         }
     }
-
-    /**
-     * The stopwatch.
-     */
-    private Stopwatch stopwatch;
-    /**
-     * Thread for the stopwatch
-     */
-    private Thread stopwatchThread;
 
     /**
      * Application entry point.
@@ -71,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //maybe this shit will fucking work
         stopwatch = new Stopwatch();
         stopwatchThread = new Thread(stopwatch);
     }
@@ -91,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
         exerciseCountTextView.setText( String.valueOf(fingerExerciseCount) );
     }
 
+    // Issue - Stopwatch Implementation
+    // Never could get the thread methods like wait/notify/interrupt to work, so ended up with this
+    // terrible approach of destroying creating threads every time a stopwatch button is pushed.
+
     /**
      * Processes the onClick event for the Start/Pause stopwatch button. Alternates between starting (or resuming)
      * the stopwatch, and stopping it.
@@ -98,19 +160,18 @@ public class MainActivity extends AppCompatActivity {
      * Creates a Java Thread instance to for the stopwatch to run in.
      * @param view The view widget source of the event.
      */
-    public void startOrPauseStopwatch(View view) {
+    public void startOrPauseStopwatch(View view) throws InterruptedException {
         Button button = findViewById(R.id.stopwatchStartOrPause);
         StopwatchButtonState buttonState = StopwatchButtonState.valueOf(button.getText().toString());
         switch (buttonState) {
             case START:
-                stopwatch.running = true;
-                if(!stopwatchThread.isAlive()) {
-                    stopwatchThread.start();
-                }
+                stopwatchThread.start();
                 button.setText(StopwatchButtonState.PAUSE.toString());
                 break;
             case PAUSE:
                 stopwatch.running = false;
+                stopwatch = new Stopwatch();
+                stopwatchThread = new Thread(stopwatch);
                 button.setText(StopwatchButtonState.START.toString());
                 break;
             default:
@@ -129,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
             case START:
                 TextView stopwatchDisplayTextView = findViewById(R.id.stopwatchDisplay);
                 stopwatchDisplayTextView.setText(Constants.STOPWATCH_START_STRING);
+                stopwatch = new Stopwatch();
+                stopwatchThread = new Thread(stopwatch);
+                startTime = null;
                 break;
             case PAUSE:
                 break;
