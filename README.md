@@ -4,6 +4,9 @@ Multiple labs to build my first android application.
 ## Health Tracker App
 Concept is based on silly phone based exercises like pressing buttons.
 
+## Documentation
+https://hoffit.github.io/health-tracker/
+
 ## Lab 26
 Features:
 - Inspiration images
@@ -12,7 +15,7 @@ Features:
 - Stopwatch.
 
 ### Lab 26 Screen Shot
-![alt text](https://github.com/DMD-Code-Fellows/health-tracker/master/docs/home_page.jpg "Health Tracker App Home")
+![alt text](https://github.com/DMD-Code-Fellows/health-tracker/master/screenshots/home_page.jpg "Health Tracker App Home")
 
 ##### Attribution
 Images in this app are from unsplash.com. Attribution not required, but indicated by file names.
