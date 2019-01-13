@@ -7,4 +7,6 @@
     <string name="stopwatchStart" translatable="false">START</string>
     <string name="stopwatchReset">Reset</string>
     <string name="inspireImageContentDescription">Main app inspriation image</string>
+    <string name="inspireNext">next</string>
+    <string name="inspirePrevious">previous</string>
 </resources>

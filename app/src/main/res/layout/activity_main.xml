@@ -6,123 +6,91 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <View
-        android:id="@+id/divider4"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="296dp"
-        android:background="?android:attr/listDivider"
-        android:visibility="visible"
+    <ImageView
+        android:id="@+id/inspirationImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/inspireImageContentDescription"
+        android:cropToPadding="false"
+        android:scaleType="center"
+        app:layout_constraintBottom_toTopOf="@+id/inspireMessage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="132dp"
-        android:background="?android:attr/listDivider"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inspireMessage" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/krzysztof_niewolny_1080021_unsplash" />
 
     <TextView
         android:id="@+id/inspireMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:text="@string/inspireMessage"
-        app:layout_constraintBottom_toTopOf="@+id/divider4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
-
-    <Button
-        android:id="@+id/imageNavPrevious"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageNavNext"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.691" />
-
-    <Button
-        android:id="@+id/imageNavNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageNavNext"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.691" />
+        app:layout_constraintTop_toBottomOf="@+id/inspirationImage" />
 
     <Button
         android:id="@+id/fingerExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:onClick="fingerExercise"
         android:text="@string/fingerExercise"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fingerExerciseCount"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.691" />
+        app:layout_constraintTop_toBottomOf="@+id/inspirePrevious" />
 
     <TextView
         android:id="@+id/fingerExerciseCount"
-        android:layout_width="wrap_content"
+        android:layout_width="64dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="@string/fingerExerciseCount"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/fingerExercise"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.678" />
+        app:layout_constraintTop_toBottomOf="@+id/inspireNext" />
 
     <TextView
         android:id="@+id/stopwatchDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="48dp"
         android:text="@string/stopwatchDisplay"
         app:layout_constraintEnd_toStartOf="@+id/stopwatchStartOrPause"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+        app:layout_constraintTop_toBottomOf="@+id/fingerExercise" />
 
     <Button
         android:id="@+id/stopwatchStartOrPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:onClick="startOrPauseStopwatch"
         android:text="@string/stopwatchStart"
         app:layout_constraintEnd_toStartOf="@+id/stopwatchReset"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/stopwatchDisplay"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+        app:layout_constraintTop_toBottomOf="@+id/fingerExercise" />
 
     <Button
         android:id="@+id/stopwatchReset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:onClick="resetStopwatch"
         android:text="@string/stopwatchReset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/stopwatchStartOrPause"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+        app:layout_constraintTop_toBottomOf="@+id/fingerExercise" />
 
     <android.support.constraint.Group
         android:id="@+id/group"
@@ -134,19 +102,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ImageView
-        android:id="@+id/imageView8"
+    <Button
+        android:id="@+id/inspirePrevious"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="@string/inspireImageContentDescription"
-        android:cropToPadding="false"
-        android:scaleType="center"
-        app:layout_constraintBottom_toTopOf="@+id/inspireMessage"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:onClick="previousInspiration"
+        android:text="@string/inspirePrevious"
+        app:layout_constraintEnd_toStartOf="@+id/inspireNext"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/krzysztof_niewolny_1080021_unsplash" />
+        app:layout_constraintTop_toBottomOf="@+id/inspireMessage" />
+
+    <Button
+        android:id="@+id/inspireNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="nextInspiration"
+        android:text="@string/inspireNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/inspirePrevious"
+        app:layout_constraintTop_toBottomOf="@+id/inspireMessage" />
 
 </android.support.constraint.ConstraintLayout>

@@ -4,15 +4,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Application Entry Point for Android app: Health Tracker
+ * Having some fun: bugs are strong! (and weird).
+ * Lead inspiration image: the idea is that a crowd has gathered
+ * to see how the user does with this challenge.
+ * If the user does well, user will be adored by cool bugs!
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +41,26 @@ public class MainActivity extends AppCompatActivity {
      * Stopwatch startTime
      */
     private Instant startTime;
+
+    /**
+     * The images for the carousel.
+     */
+    HashMap<Integer, Inspiration> inspirations = new HashMap<Integer, Inspiration>() {
+        {
+            put(0, new Inspiration("You've drawn a crowd!", R.drawable.krzysztof_niewolny_1080021_unsplash));
+            put(1, new Inspiration("You're on top!", R.drawable.sian_cooper_1248257_unsplash));
+            put(2, new Inspiration("You're sooooo fly!", R.drawable.annelie_turner_230962_unsplash));
+            put(3, new Inspiration("You're being noticed now!", R.drawable.matheus_queiroz_737500_unsplash));
+            put(4, new Inspiration("You've done it!", R.drawable.michael_podger_26459_unsplash));
+            put(5, new Inspiration("Strong as an ant!", R.drawable.mi_shots_410599_unsplash));
+            put(6, new Inspiration("Whoa!", R.drawable.ruben_bagues_750188_unsplash));
+        }
+    };
+
+    /**
+     * The index for the currently displayed inspiration.
+     */
+    private int inspirationIndex = 0;
 
     /**
      * The stopwatch.
@@ -132,6 +156,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         stopwatch = new Stopwatch();
         stopwatchThread = new Thread(stopwatch);
+    }
+
+    /**
+     * Increments the image to the next one.
+     * @param view The next button that triggered the event.
+     */
+    public void nextInspiration(View view) {
+        inspirationIndex = (inspirationIndex == inspirations.size() - 1) ? (0) : (inspirationIndex + 1);
+        setInspirationForIndex(inspirationIndex);
+    }
+
+    /**
+     * Increments the image to the previous one.
+     * @param view The next button that triggered the event.
+     */
+    public void previousInspiration(View view) {
+        inspirationIndex = (inspirationIndex == 0) ? (inspirations.size() - 1) : (inspirationIndex - 1);
+        setInspirationForIndex(inspirationIndex);
+    }
+
+    /**
+     * Helper method to change the inspiration message and image to the specified index.
+     * @param index The index in the map of inspirations to change to.
+     */
+    private void setInspirationForIndex(int index) {
+        ImageView inspirationImage = findViewById(R.id.inspirationImage);
+        inspirationImage.setImageResource(inspirations.get(inspirationIndex).getInspirationDrawable());
+        TextView inspirationMessage = findViewById(R.id.inspireMessage);
+        inspirationMessage.setText(inspirations.get(inspirationIndex).getInspirationMessage());
     }
 
     /**
