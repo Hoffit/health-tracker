@@ -1,9 +1,18 @@
 # CF Java 401 Android Applications Lab Work
+Multiple labs to build my first android application.
 
 ## Health Tracker App
+Concept is based on silly phone based exercises like pressing buttons.
 
 ## Lab 26
-Images in this app are from unsplash.com. Attribution not required, but indicated by file names.
+Features:
+- Inspiration images
+- Inspiration messages
+- Finger button press exercise with count.
+- Stopwatch.
 
 ### Lab 26 Screen Shot
-![alt text](https://github.com/DMD-Code-Fellows/health-tracker/master/docs/health-tracker-finger.jpg "Health Tracker App Home")
+![alt text](https://github.com/DMD-Code-Fellows/health-tracker/master/docs/home_page.jpg "Health Tracker App Home")
+
+##### Attribution
+Images in this app are from unsplash.com. Attribution not required, but indicated by file names.
