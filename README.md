@@ -15,7 +15,7 @@ Features:
 - Stopwatch.
 
 ### Lab 26 Screen Shot
-![App Screen Shot](https://github.com/Hoffit/health-tracker/master/screenshots/home_page.jpg "Health Tracker App Home")
+![App Screen Shot](https://github.com/Hoffit/health-tracker/blob/master/screenshots/home_page.jpg "Health Tracker App Home")
 
 ##### Attribution
 Images in this app are from unsplash.com. Attribution not required, but indicated by file names.
