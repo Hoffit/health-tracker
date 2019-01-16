@@ -21,7 +21,10 @@ Add the ability for users to enter a profile picture. Give them the option of ta
 
 Add testing for this flow once you’ve built it. (In general, you are now expected to write tests for any functionality you add to the app.)
 
-## Labs 27, 28 skipped
+## Lab 28 Room (database)
+
+
+## Labs 27 skipped
 
 ## Lab 26
 Features:

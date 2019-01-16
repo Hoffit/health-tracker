@@ -1,6 +1,6 @@
 package com.heally.healthtrackerapp;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
+
+import androidx.room.Room;
 
 /**
  * Application Entry Point for Android app: Health Tracker
@@ -153,9 +155,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_diary);
         stopwatch = new Stopwatch();
         stopwatchThread = new Thread(stopwatch);
+
+        HealthTrackerDatabase db = Room.databaseBuilder(getApplicationContext(),
+                HealthTrackerDatabase.class, HealthTrackerDatabase.NAME).build();
     }
 
     /**

@@ -28,12 +28,4 @@ public class InspirationUnitTest {
         assertTrue(inspirations.get(6).getInspirationMessage().equals("Whoa!"));
         assertTrue(inspirations.get(6).getInspirationDrawable() == R.drawable.ruben_bagues_750188_unsplash);
     }
-
-    @Test
-    public void fingerExerciseClicks() {
-//        onView(withId(R.id.name_field)).perform(typeText("Steve"));
-//        onView(withId(R.id.greet_button)).perform(click());
-//        onView(withText("Hello Steve!")).check(matches(isDisplayed()));
-    }
-
 }
